@@ -172,7 +172,7 @@ const Auth = () => {
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-[#FAFAFA]">
       <div className="flex w-4/5 h-4/5">
-        <div className="w-full h-full">
+        <div className="flex justify-center items-center w-full h-full">
           <Image src={AuthAnimation} alt="auth animation" />
         </div>
         <div className="flex flex-col w-full space-y-5 ">
