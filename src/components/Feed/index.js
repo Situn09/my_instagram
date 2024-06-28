@@ -174,13 +174,15 @@ const Feed = () => {
                 />
               </>
             ) : (
-              <div className="flex flex-col p-5 gap-y-4 ">
-                <input
-                  type="image"
-                  src={media.src}
-                  className=" h-70"
-                  ref={currentImage}
-                />
+              <div className="flex w-full flex-col p-5 gap-y-4 ">
+                <div className="w-full">
+                  <input
+                    type="image"
+                    src={media.src}
+                    className=" w-full"
+                    ref={currentImage}
+                  />
+                </div>
                 <div className="flex justify-center items-center">
                   <input
                     type="text"

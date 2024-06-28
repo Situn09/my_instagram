@@ -10,6 +10,7 @@ import { auth, db } from "../../lib/firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { handlePromise } from "../../utils/handlePromise";
 import { toast } from "react-hot-toast";
@@ -169,6 +170,22 @@ const Auth = () => {
     });
   };
 
+  const [emailForReset, setEmailForReset] = useState("");
+  const [resetPasswordTab, setResetPasswordTab] = useState(false);
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, emailForReset);
+      toast.success("Password reset email sent!");
+      setIsLoginForm(true);
+      setResetPasswordTab(false);
+    } catch (error) {
+      console.error("Error sending password reset email: ", error);
+      toast.error("Error sending password reset email");
+    }
+  };
+
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-[#FAFAFA]">
       <div className="flex w-4/5 h-4/5">
@@ -178,7 +195,29 @@ const Auth = () => {
         <div className="flex flex-col w-full space-y-5 ">
           <div className="relative flex flex-col w-full p-10 space-y-5 bg-white border border-gray-300">
             {isLoading && <LoadingOverlay />}
-            {!isAuthenticated && (
+            {resetPasswordTab && (
+              <form
+                onSubmit={(e) => handleResetPassword(e)}
+                className="flex flex-col items-center space-y-5"
+              >
+                <div className="my-5 text-5xl tracking-wider">Instagram</div>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={(e) => setEmailForReset(e.target.value)}
+                  className="w-full px-2 py-1 bg-gray-100 border rounded-sm outline-none hover:bg-transparent focus:bg-transparent placeholder:text-sm focus:border-gray-400"
+                  placeholder="Email"
+                />
+                <button
+                  type="submit"
+                  className="bg-[#0095F6] py-1 text-white active:scale-95 transform transition w-full disabled:bg-opacity-50 disabled:scale-100 rounded text-sm font-semibold"
+                >
+                  Reset Password
+                </button>
+              </form>
+            )}
+            {!isAuthenticated && !resetPasswordTab && (
               <form
                 onSubmit={submitHandler}
                 className="flex flex-col items-center space-y-5"
@@ -262,7 +301,10 @@ const Auth = () => {
               </span>
             </div>
             {isLoginForm && (
-              <div className="w-full text-xs text-center text-indigo-900">
+              <div
+                className="cursor-pointer w-full text-xs text-center text-indigo-900"
+                onClick={() => setResetPasswordTab(true)}
+              >
                 Forgotten your password?
               </div>
             )}

@@ -19,6 +19,7 @@ import { FaRegComment } from "react-icons/fa";
 import { IoShareOutline } from "react-icons/io5";
 import { auth, db } from "../../lib/firebase";
 import { GlobalContext } from "../../state/context/GlobalContext";
+import { IoPersonCircleOutline as Profile } from "react-icons/io5";
 
 const Post = ({ id, username, image, caption, likesCount }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -112,7 +113,9 @@ const Post = ({ id, username, image, caption, likesCount }) => {
     <div className="flex flex-col w-full border border-gray-200">
       <div className="flex items-center justify-between w-full p-2 ">
         <div className="flex items-center justify-center space-x-2">
-          <div className="w-10 h-10 bg-black border-2 rounded-full" />
+          <div className="w-10 h-10  border-2 rounded-full">
+            <Profile size={25} />
+          </div>
           <div>{username}</div>
         </div>
         <div className="w-4 select-none">
